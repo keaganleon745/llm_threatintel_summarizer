@@ -1,2 +1,6 @@
 feedparser
 requests
+
+# Optional - Uncomment below if integrating LLM APIs or LangChain
+# openai
+# langchain
