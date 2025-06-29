@@ -12,3 +12,22 @@ This project pulls in cybersecurity news from public sources like CISA, AlienVau
 - Easy to expand with tools like LangChain or OpenAI
 
 ---
+
+## Setup (Replit or Local)
+
+1. Clone the Repo
+```bash
+git clone https://github.com/yourusername/llm-threatintel-summarizer.git
+cd llm-threatintel-summarizer
+```
+2. Install Requirements
+```bash
+pip install -r requirements.txt
+```
+3. Run the Script
+```bash
+python llm_threatintel_summarizer.py
+```
+4. View Output
+
+Check the summarized_threat_intel.txt file for the daily digest.
