@@ -26,7 +26,7 @@ pip install -r requirements.txt
 ```
 3. Run the Script
 ```bash
-python llm_threatintel_summarizer.py
+python main.py
 ```
 4. View Output
 
