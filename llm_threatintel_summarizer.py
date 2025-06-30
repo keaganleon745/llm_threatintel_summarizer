@@ -8,10 +8,6 @@ from dotenv import load_dotenv
 # import openai
 # from langchain.llms import OpenAI
 
-# Load API key from .env
-load_dotenv()
-OTX_API_KEY = os.getenv("OTX_API_KEY")
-
 # Settings
 FEEDS = [
     'https://www.cisa.gov/news.xml',
@@ -32,24 +28,6 @@ def fetch_feed_items(feed_url):
     parsed_feed = feedparser.parse(feed_url)
     return parsed_feed.entries
 
-# Fetch OTX pulses with authentication
-def fetch_otx_pulses():
-    headers = {
-        "X-OTX-API-KEY": OTX_API_KEY,
-        "Accept": "application/json"
-    }
-    url = "https://otx.alienvault.com/api/v1/pulses/subscribed"
-    response = requests.get(url, headers=headers)
-    if response.status_code == 200:
-        pulses = response.json().get("results", [])
-        return [{
-            'title': pulse.get('name', ''),
-            'summary': pulse.get('description', '')
-        } for pulse in pulses]
-    else:
-        print(f"Failed to fetch OTX: {response.status_code}")
-        return []
-
 # Write output to file
 def write_summary(feed_name, entries, f):
     for entry in entries:
@@ -63,16 +41,12 @@ def main():
     with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
         f.write(f"Threat Intel Summary for {datetime.now().strftime('%Y-%m-%d')}\n\n")
 
-        # Fetch and summarize OTX
-        otx_entries = fetch_otx_pulses()
-        write_summary("AlienVault OTX", otx_entries[:5], f)  # Limit to 5 entries
-
-        # Fetch and summarize other feeds
+        # Fetch and summarize each RSS feed
         for feed in FEEDS:
             try:
                 feed_name = feed.split("/")[2]
                 entries = fetch_feed_items(feed)
-                write_summary(feed_name, entries[:5], f)
+                write_summary(feed_name, entries[:5], f)  # Limit to 5 items per feed
             except Exception as e:
                 f.write(f"Error fetching {feed}: {str(e)}\n\n")
 
