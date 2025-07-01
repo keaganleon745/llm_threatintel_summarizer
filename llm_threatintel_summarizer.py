@@ -30,3 +30,4 @@ def generate_threat_intel_summary(feeds, output_file):
             except Exception as e:
                 print(f"Error fetching {feed}: {str(e)}")
                 f.write(f"Error fetching {feed}: {str(e)}\n\n")
+}
