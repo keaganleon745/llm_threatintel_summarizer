@@ -1,9 +1,21 @@
 import feedparser
 from datetime import datetime
+import os
+from dotenv import load_dotenv
+from llama_cpp import Llama
 
-# Sample summarizer stub
+load_dotenv()
+
+# Path to your Mistral model (download it and place here)
+MODEL_PATH = "models/mistral-7b-instruct.Q4_0.gguf"
+
+# Load Mistral model
+llm = Llama(model_path=MODEL_PATH, n_ctx=2048)
+
 def summarize_with_local_llm(text):
-    return f"[Summary Placeholder]\n{text[:300]}..."
+    prompt = f"Summarize this in 2-3 sentences:\n\n{text.strip()}\n\nSummary:"
+    result = llm(prompt, max_tokens=200, stop=["\n\n"])
+    return result["choices"][0]["text"].strip()
 
 def fetch_feed_items(feed_url):
     parsed_feed = feedparser.parse(feed_url)
@@ -12,6 +24,7 @@ def fetch_feed_items(feed_url):
 def write_summary(feed_name, entries, f):
     for entry in entries:
         raw_text = entry.get('title', '') + "\n" + entry.get('summary', '')
+        print(f"Summarizing entry from {feed_name}...")
         summary = summarize_with_local_llm(raw_text)
         f.write(f"--- {feed_name} ---\n")
         f.write(summary + "\n\n")
