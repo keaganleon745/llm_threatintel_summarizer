@@ -7,7 +7,7 @@ from llama_cpp import Llama
 load_dotenv()
 
 # Path to your Mistral model (download it and place here)
-MODEL_PATH = "models/mistral-7b-instruct.Q4_0.gguf"
+MODEL_PATH = r"[full path here]/mistral-7b-instruct.Q4_0.gguf"
 
 # Load Mistral model
 llm = Llama(model_path=MODEL_PATH, n_ctx=2048)
