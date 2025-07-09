@@ -30,4 +30,4 @@ python main.py
 ```
 4. View Output
 
-Check the summarized_threat_intel.txt file for the daily digest..
+Check the summarized_threat_intel.txt file for the daily digest.
